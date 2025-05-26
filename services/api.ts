@@ -17,10 +17,10 @@ export const TMDB_CONFIG = {
  * @returns {Promise<any[]>} A promise that resolves to an array of movie results.
  * @throws {Error} Throws an error if the fetch request fails.
  */
-export const fetchPopularMovies = async ({ query }: { query: string }) => {
+export const fetchMovies = async ({ query }: { query: string }) => {
   const endpoint = query
-    ? `${TMDB_CONFIG.BASE_URL}/discover/movie?query=${encodeURIComponent(query)}`
-    : `${TMDB_CONFIG.BASE_URL}/discover/movie?sort_by=popularity.desc`;
+    ? `${TMDB_CONFIG.BASE_URL}search/movie?query=${encodeURIComponent(query)}`
+    : `${TMDB_CONFIG.BASE_URL}discover/movie?sort_by=popularity.desc`;
   const response = await fetch(endpoint, {
     method: 'GET',
     headers: TMDB_CONFIG.headers,

@@ -2,7 +2,7 @@ import MovieCard from '@/components/MovieCard';
 import SearchBar from '@/components/SearchBar';
 import { icons } from '@/constants/icons';
 import { images } from '@/constants/images';
-import { fetchPopularMovies } from '@/services/api';
+import { fetchMovies } from '@/services/api';
 import useFetch from '@/services/userFetch';
 import { useRouter } from 'expo-router';
 import {
@@ -21,7 +21,7 @@ export default function Index() {
     data: movies,
     loading,
     error,
-  } = useFetch(() => fetchPopularMovies({ query: '' }));
+  } = useFetch(() => fetchMovies({ query: '' }));
 
   return (
     <View className="flex-1 bg-primary">

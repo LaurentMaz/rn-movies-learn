@@ -2,18 +2,43 @@ import MovieCard from '@/components/MovieCard';
 import SearchBar from '@/components/SearchBar';
 import { icons } from '@/constants/icons';
 import { images } from '@/constants/images';
-import { fetchPopularMovies } from '@/services/api';
+import { fetchMovies } from '@/services/api';
 import useFetch from '@/services/userFetch';
-import React, { useState } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
+import React, { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, FlatList, Image, Text, View } from 'react-native';
 
 const Search = () => {
   const [searchQuery, setSearchQuery] = useState('');
+
   const {
     data: movies,
     loading,
     error,
-  } = useFetch(() => fetchPopularMovies({ query: '' }), false);
+    refetch,
+    reset,
+  } = useFetch(() => fetchMovies({ query: searchQuery }), false);
+
+  useFocusEffect(
+    useCallback(() => {
+      // Quand l'écran devient actif
+      return () => {
+        // Quand l'écran est quitté
+        setSearchQuery('');
+      };
+    }, []),
+  );
+
+  useEffect(() => {
+    const timeoutId = setTimeout(async () => {
+      if (searchQuery.trim()) {
+        await refetch();
+      } else {
+        reset();
+      }
+    }, 500);
+    return () => clearTimeout(timeoutId);
+  }, [searchQuery]);
 
   return (
     <View className="flex-1 bg-primary">
@@ -70,6 +95,17 @@ const Search = () => {
                 )}
             </View>
           </>
+        }
+        ListEmptyComponent={
+          !loading && !error ? (
+            <View className="mt-10 px-5">
+              <Text className="text-center text-gray-500">
+                {searchQuery.trim()
+                  ? 'Aucun film trouvé'
+                  : 'Recherchez un film'}
+              </Text>
+            </View>
+          ) : null
         }
       />
     </View>
