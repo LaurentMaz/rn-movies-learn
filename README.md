@@ -27,6 +27,5 @@ You can start developing by editing the files inside the **app** directory. This
 
 ## Learning
 
-* Expo Router
-* ...
-
+- Expo Router (Tabs, Stack navigation)
+- Custom Hook for API calls (pour encapsuler le fetching et ses effets: loading, error, refetching,...)
