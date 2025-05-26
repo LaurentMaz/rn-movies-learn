@@ -14,6 +14,9 @@ const _Layout = () => {
           alignItems: 'center',
         },
         tabBarStyle: {
+          borderTopWidth: 0,
+          elevation: 0, // Android shadow
+          shadowOpacity: 0, // iOS shadow
           backgroundColor: '#0f0d23',
           borderRadius: 50,
           marginHorizontal: 20,
