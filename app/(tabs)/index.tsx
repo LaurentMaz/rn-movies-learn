@@ -1,10 +1,9 @@
 import MovieCard from '@/components/MovieCard';
-import SearchBar from '@/components/SearchBar';
 import { icons } from '@/constants/icons';
 import { images } from '@/constants/images';
 import { fetchMovies } from '@/services/api';
 import useFetch from '@/services/userFetch';
-import { useRouter } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
 import {
   ActivityIndicator,
   FlatList,
@@ -42,10 +41,24 @@ export default function Index() {
           <Text>Erreur : {error?.message}</Text>
         ) : (
           <View className="flex-1 mt-5">
-            <SearchBar
+            {/* <SearchBar
               onPress={() => router.push('/search')}
-              placeholder="Rechercher"
-            />
+              placeholder="Rechercher"             
+            /> */}
+            <Link href="/(tabs)/search">
+              <View className="flex-row items-center bg-dark-200 rounded-full px-5 py-6">
+                <Image
+                  source={icons.search}
+                  className="size-5"
+                  resizeMode="contain"
+                  tintColor="#ab8bff"
+                />
+                <Text className="text-[#ab8bff] flex-1 ml-2 text-xl ">
+                  Rechercher
+                </Text>
+              </View>
+            </Link>
+
             <>
               <Text className="text-lg font-bold mt-5 mb-3 text-white">
                 Les plus récents

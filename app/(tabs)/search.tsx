@@ -5,11 +5,19 @@ import { images } from '@/constants/images';
 import { fetchMovies } from '@/services/api';
 import useFetch from '@/services/userFetch';
 import { useFocusEffect } from '@react-navigation/native';
-import React, { useCallback, useEffect, useState } from 'react';
-import { ActivityIndicator, FlatList, Image, Text, View } from 'react-native';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import {
+  ActivityIndicator,
+  FlatList,
+  Image,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
 
 const Search = () => {
   const [searchQuery, setSearchQuery] = useState('');
+  const inputRef = useRef<TextInput>(null);
 
   const {
     data: movies,
@@ -22,6 +30,9 @@ const Search = () => {
   useFocusEffect(
     useCallback(() => {
       // Quand l'écran devient actif
+      const timeout = setTimeout(() => {
+        inputRef.current?.focus();
+      }, 100);
       return () => {
         // Quand l'écran est quitté
         setSearchQuery('');
@@ -66,6 +77,7 @@ const Search = () => {
             </View>
             <View className="my-5">
               <SearchBar
+                ref={inputRef}
                 placeholder="Rechercher"
                 value={searchQuery}
                 onChangeText={(text: string) => setSearchQuery(text)}

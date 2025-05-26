@@ -1,5 +1,5 @@
 import { icons } from '@/constants/icons';
-import React from 'react';
+import React, { RefObject } from 'react';
 import { Image, TextInput, View } from 'react-native';
 
 interface SearchBarProps {
@@ -7,6 +7,7 @@ interface SearchBarProps {
   placeholder: string;
   value?: string;
   onChangeText?: (text: string) => void;
+  ref?: RefObject<TextInput | null>;
 }
 
 const SearchBar = ({
@@ -14,6 +15,7 @@ const SearchBar = ({
   placeholder,
   value,
   onChangeText,
+  ref,
 }: SearchBarProps) => {
   return (
     <View className="flex-row items-center bg-dark-200 rounded-full px-5 py-4">
@@ -24,6 +26,7 @@ const SearchBar = ({
         tintColor="#ab8bff"
       />
       <TextInput
+        ref={ref}
         onPress={onPress}
         placeholder={placeholder}
         placeholderTextColor="#ab8bff"
