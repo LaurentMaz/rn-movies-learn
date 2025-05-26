@@ -1,4 +1,5 @@
 import MovieCard from '@/components/MovieCard';
+import TrendingCard from '@/components/TrendingCard';
 import { icons } from '@/constants/icons';
 import { images } from '@/constants/images';
 import { fetchMovies } from '@/services/api';
@@ -63,21 +64,23 @@ export default function Index() {
             </Link>
             {trendingMovies && (
               <View className="mt-10">
-                <Text className="text-lg font-bold mt-5 mb-3 text-white">
+                <Text className="text-2xl font-bold mt-5 mb-3 text-white">
                   A l'affiche
                 </Text>
                 <FlatList
                   data={trendingMovies}
-                  scrollEnabled={false}
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  ItemSeparatorComponent={() => <View className="w-4" />}
                   renderItem={({ item, index }) => (
-                    <Text className="text-white">{item.title}</Text>
+                    <TrendingCard movie={item} index={index} />
                   )}
                   keyExtractor={(item) => item.movie_id.toString()}
                 />
               </View>
             )}
             <>
-              <Text className="text-lg font-bold mt-5 mb-3 text-white">
+              <Text className="text-2xl font-bold mt-5 mb-3 text-white">
                 Les plus récents
               </Text>
               <FlatList

@@ -1,12 +1,10 @@
 import TabIcon from '@/components/TabIcon';
 import { icons } from '@/constants/icons';
 import { Tabs } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
 
 const _Layout = () => {
   return (
     <>
-      <StatusBar style="light" />
       <Tabs
         screenOptions={{
           tabBarShowLabel: false,
