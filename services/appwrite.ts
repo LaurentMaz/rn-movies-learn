@@ -9,13 +9,21 @@ const client = new Client()
 
 const database = new Databases(client);
 
-// track searches made by a user
+// track searches made by users
 
+/**
+ * Updates the search count for a given movie based on the search query.
+ *
+ * - If a document with the specified search term already exists in the Appwrite database,
+ *   increments its `count` field by 1.
+ * - If no such document exists, creates a new document with the movie details and initializes
+ *   the `count` field to 1.
+ *
+ * @param query - The search term used to find the movie.
+ * @param movie - The movie object containing details such as title, id, and poster path.
+ * @throws Will throw an error if the database operation fails.
+ */
 export const updateSearchCount = async (query: string, movie: Movie) => {
-  //check if a record of that search had already been stored
-  //if a document is found increment the searchCount field
-  //if no document is found create a new document in Appwrite database -> 1
-
   try {
     const result = await database.listDocuments(DATABASE_ID, COLLECTION_ID, [
       Query.equal('searchTerm', query),
@@ -47,6 +55,17 @@ export const updateSearchCount = async (query: string, movie: Movie) => {
   }
 };
 
+/**
+ * Retrieves the top 5 trending movies from the database, ordered by the 'count' field in descending order.
+ *
+ * @returns {Promise<TrendingMovie[] | undefined>} A promise that resolves to an array of trending movies,
+ * or `undefined` if an error occurs during the fetch operation.
+ *
+ * @remarks
+ * This function queries the database for documents in the specified collection,
+ * limiting the results to 5 and ordering them by the 'count' field in descending order.
+ * If an error occurs, it logs the error and returns `undefined`.
+ */
 export const getTrendingMovies = async (): Promise<
   TrendingMovie[] | undefined
 > => {

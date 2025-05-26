@@ -2,6 +2,7 @@ import MovieCard from '@/components/MovieCard';
 import { icons } from '@/constants/icons';
 import { images } from '@/constants/images';
 import { fetchMovies } from '@/services/api';
+import { getTrendingMovies } from '@/services/appwrite';
 import useFetch from '@/services/userFetch';
 import { Link, useRouter } from 'expo-router';
 import {
@@ -22,6 +23,12 @@ export default function Index() {
     error,
   } = useFetch(() => fetchMovies({ query: '' }));
 
+  const {
+    data: trendingMovies,
+    loading: trendingLoading,
+    error: trendingError,
+  } = useFetch(getTrendingMovies);
+
   return (
     <View className="flex-1 bg-primary">
       <Image source={images.bg} className="absolute w-full z-0" />
@@ -31,20 +38,16 @@ export default function Index() {
         contentContainerStyle={{ minHeight: '100%', paddingBottom: 10 }}
       >
         <Image source={icons.logo} className="w-12 h-10 mt-20 mb-5 mx-auto" />
-        {loading ? (
+        {loading || trendingLoading ? (
           <ActivityIndicator
             size="large"
             color="#0000ff"
             className="mt-10 self-center"
           />
-        ) : error ? (
-          <Text>Erreur : {error?.message}</Text>
+        ) : error || trendingError ? (
+          <Text>Erreur : {error?.message || trendingError?.message}</Text>
         ) : (
           <View className="flex-1 mt-5">
-            {/* <SearchBar
-              onPress={() => router.push('/search')}
-              placeholder="Rechercher"             
-            /> */}
             <Link href="/(tabs)/search">
               <View className="flex-row items-center bg-dark-200 rounded-full px-5 py-6">
                 <Image
@@ -58,7 +61,21 @@ export default function Index() {
                 </Text>
               </View>
             </Link>
-
+            {trendingMovies && (
+              <View className="mt-10">
+                <Text className="text-lg font-bold mt-5 mb-3 text-white">
+                  A l'affiche
+                </Text>
+                <FlatList
+                  data={trendingMovies}
+                  scrollEnabled={false}
+                  renderItem={({ item, index }) => (
+                    <Text className="text-white">{item.title}</Text>
+                  )}
+                  keyExtractor={(item) => item.movie_id.toString()}
+                />
+              </View>
+            )}
             <>
               <Text className="text-lg font-bold mt-5 mb-3 text-white">
                 Les plus récents
