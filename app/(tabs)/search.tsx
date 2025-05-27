@@ -36,7 +36,7 @@ const Search = () => {
       }, 100);
       return () => {
         // Quand l'écran est quitté
-        setSearchQuery('');
+        // setSearchQuery('');
       };
     }, []),
   );
