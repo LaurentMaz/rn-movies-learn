@@ -32,3 +32,28 @@ export const fetchMovies = async ({ query }: { query: string }) => {
   const data = await response.json();
   return data.results;
 };
+
+export const fetchMovieDetails = async (id: string): Promise<MovieDetails> => {
+  try {
+    const response = await fetch(
+      `${TMDB_CONFIG.BASE_URL}movie/${id}?api_key=${TMDB_CONFIG.API_KEY}`,
+      {
+        method: 'GET',
+        headers: TMDB_CONFIG.headers,
+      },
+    );
+    if (!response.ok) {
+      // @ts-ignore
+      throw new Error(
+        'Echec du chargement des details du film',
+        // @ts-ignore
+        response.statusText,
+      );
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
